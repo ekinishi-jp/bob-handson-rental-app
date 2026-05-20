@@ -186,7 +186,7 @@ http://localhost:5173
 
 左側の物件一覧から見たい物件を選択すると、画面真ん中に詳細が出て、下にスクロールすると問い合わせフォームが現れます。
 
-<img src="./images/rental-app.png" alt="賃貸物件検索アプリの画面" width="400">.    <img src="./images/rental-app-form.png" alt="問い合わせフォーム" width="300">
+<img src="./images/rental-app.png" alt="賃貸物件検索アプリの画面" width="400">     <img src="./images/rental-app-form.png" alt="問い合わせフォーム" width="300">
 
 右側の画像のように、必要事項を入力して問い合わせフォームを送信してください。（入力したデータは後ほどの演習時に使われます。）
 
@@ -214,6 +214,26 @@ http://localhost:5173
    工程が不足しているなど問題があればBobに伝えます。
 
 6. **適宜設計書が作成されるので、内容が問題なければ承認、問題があれば適宜Bobに伝えて修正を促します**
+
+### 5.2 （補足）Mermaid図のプレビュー表示
+Bobでは、エディターの拡張機能を追加して開発環境をカスタマイズできます。
+今回作成する設計書には、Mermaidで記述された図が含まれる場合があります。これをプレビューで図として表示するために、拡張機能を入れます。
+
+1. Bobの画面左側にある拡張機能のアイコンをクリック
+
+   <img src="./images/bob-additional-function.png" alt="エディター拡張機能" width="300">
+
+2. 検索欄に「Markdown Preview Mermaid Support」と入力して検索します
+
+   <img src="./images/markdown-preview-mermaid.png" alt="マーメイドプレビュー" width="700">
+
+3. 検索結果に表示された拡張機能の「Install」をクリックします
+
+4. 設計書のMarkdownファイル（.md）を右クリックし、「プレビューを開く」を選択して表示を確認します。
+
+   <img src="./images/design-doc-preview.png" alt="プレビュー画面" width="700">
+
+これにより、Markdownで書かれた設計書が見やすくなります。
 
 ---
 
@@ -246,26 +266,6 @@ http://localhost:5173
 5. **情報が揃ったと判断すると、BobがTodoリストを作成し、計画を立てるので、問題がなければ承認します**
 
 6. **適宜設計書が作成されるので、内容が問題なければ承認、問題があれば適宜Bobに伝えて修正を促します**
-
-### 6.2 （補足）Mermaid図のプレビュー表示
-Bobでは、エディターの拡張機能を追加して開発環境をカスタマイズできます。
-今回作成する設計書には、Mermaidで記述された図が含まれる場合があります。これをプレビューで図として表示するために、拡張機能を入れます。
-
-1. Bobの画面左側にある拡張機能のアイコンをクリック
-
-   <img src="./images/bob-additional-function.png" alt="エディター拡張機能" width="300">
-
-2. 検索欄に「Markdown Preview Mermaid Support」と入力して検索します
-
-   <img src="./images/markdown-preview-mermaid.png" alt="マーメイドプレビュー" width="700">
-
-3. 検索結果に表示された拡張機能の「Install」をクリックします
-
-4. 設計書のMarkdownファイル（.md）を右クリックし、「プレビューを開く」を選択して表示を確認します。
-
-   <img src="./images/design-doc-preview.png" alt="プレビュー画面" width="700">
-
-これにより、Markdownで書かれた設計書が見やすくなります。
 
 ---
 

@@ -65,6 +65,8 @@ jobs:
             } > "_pages_src/$file"
           done
 
+          find _pages_src -name '*.md' -exec perl -pi -e 'if (/^```/) { $in_code = !$in_code; } if (!$in_code && /^(\s*)(https?:\/\/\S+)(\s*)$/) { $_ = $1 . "[" . $2 . "](" . $2 . ")" . $3 . "\n"; }' {} +
+
           if [ -d images ]; then
             cp -R images _pages_src/images
           fi

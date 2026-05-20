@@ -258,8 +258,8 @@ Bobでは、エディターの拡張機能を追加して開発環境をカス�
    ```
 
    ※その他指示のサンプル
-   
-   - [`instructor/hands_on_feature_model_answer.md`]('https://github.com/ekinishi-jp/bob-handson-rental-app/blob/main/instructor/hands_on_feature_model_answer.md')
+
+   - [`instructor/hands_on_feature_model_answer.md`](./instructor/hands_on_feature_model_answer.md)
 
 3. **Bobから仕様を詰めるための質問が来る場合は適宜答えていきます**
 

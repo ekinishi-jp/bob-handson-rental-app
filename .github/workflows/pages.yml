@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - README.md
+      - instructor/hands_on_feature_model_answer.md
       - SETUP_*.md
       - images/**
       - .github/pages/**
@@ -45,8 +46,11 @@ jobs:
             cat README.md
           } > _pages_src/index.md
 
-          for file in SETUP_*.md; do
+          mkdir -p _pages_src/instructor
+
+          for file in instructor/hands_on_feature_model_answer.md SETUP_*.md; do
             case "$file" in
+              instructor/hands_on_feature_model_answer.md) title="追加機能の要件定義 指示サンプル" ;;
               SETUP_MAC.md) title="Mac 環境セットアップ手順" ;;
               SETUP_WINDOWS.md) title="Windows 環境セットアップ手順" ;;
               *) title="${file%.md}" ;;

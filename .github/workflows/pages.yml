@@ -2,10 +2,13 @@ name: Deploy handson docs to GitHub Pages
 
 on:
   push:
+    branches:
+      - main
     paths:
       - README.md
       - SETUP_*.md
       - images/**
+      - .github/pages/**
       - .github/workflows/pages.yml
   workflow_dispatch:
 
@@ -20,6 +23,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +38,7 @@ jobs:
           set -euo pipefail
 
           mkdir -p _pages_src
+          cp -R .github/pages/. _pages_src/
 
           {
             printf -- "---\nlayout: default\ntitle: Bobハンズオン 賃貸物件検索アプリ\n---\n\n"
@@ -61,7 +66,6 @@ jobs:
           title: Bobハンズオン 賃貸物件検索アプリ
           description: ハンズオン手順書
           markdown: kramdown
-          theme: minima
           plugins:
             - jekyll-relative-links
           relative_links:
@@ -81,6 +85,7 @@ jobs:
           path: ./_site
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:

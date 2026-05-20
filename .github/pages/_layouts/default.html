@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title | default: site.title }}</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f7fb;
+        --panel: #ffffff;
+        --panel-soft: #f8fafc;
+        --panel-tint: #f1f7f6;
+        --ink: #172033;
+        --ink-strong: #0f172a;
+        --muted: #5f6f86;
+        --border: #d9e1ec;
+        --border-strong: #c7d3e2;
+        --accent: #0f766e;
+        --accent-strong: #115e59;
+        --accent-soft: #e8f6f3;
+        --accent-line: rgba(15, 118, 110, 0.24);
+        --blue: #315c96;
+        --blue-soft: #eaf1fb;
+        --rose: #b5473f;
+        --rose-soft: #fff0ed;
+        --warning-soft: #fff7df;
+        --warning-ink: #5d4209;
+        --quote-ink: #23433f;
+        --row-alt: #fbfcfe;
+        --link-hover: #0b4f4a;
+        --mermaid-bg: #ffffff;
+        --mermaid-border: #d0d7de;
+        --code-bg: #101828;
+        --code-ink: #e6edf7;
+        --shadow: 0 18px 48px rgba(23, 32, 51, 0.08);
+        --shadow-strong: 0 22px 70px rgba(23, 32, 51, 0.18);
+      }
+
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #101622;
+        --panel: #161f2e;
+        --panel-soft: #1d2838;
+        --panel-tint: #122d2b;
+        --ink: #e7edf6;
+        --ink-strong: #f8fafc;
+        --muted: #9fb0c8;
+        --border: #2d3a4f;
+        --border-strong: #44546d;
+        --accent: #3fb8a8;
+        --accent-strong: #8de1d5;
+        --accent-soft: #123a37;
+        --accent-line: rgba(63, 184, 168, 0.34);
+        --blue: #9bbcf1;
+        --blue-soft: #192b45;
+        --rose: #ffb0a8;
+        --rose-soft: #3d2023;
+        --warning-soft: #3b2f12;
+        --warning-ink: #f6d98d;
+        --quote-ink: #c9f3ed;
+        --row-alt: #182233;
+        --link-hover: #b7f2e8;
+        --mermaid-bg: #0d1117;
+        --mermaid-border: #30363d;
+        --code-bg: #090d14;
+        --code-ink: #e6edf7;
+        --shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+        --shadow-strong: 0 22px 70px rgba(0, 0, 0, 0.46);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        color: var(--ink);
+        background:
+          linear-gradient(180deg, var(--blue-soft) 0, rgba(234, 241, 251, 0) 300px),
+          linear-gradient(90deg, rgba(15, 118, 110, 0.08), rgba(181, 71, 63, 0.05)),
+          var(--bg);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      a {
+        color: var(--accent-strong);
+        text-decoration-thickness: 0.08em;
+        text-underline-offset: 0.18em;
+      }
+
+      a:hover {
+        color: var(--link-hover);
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid rgba(23, 32, 51, 0.1);
+        background: color-mix(in srgb, var(--panel) 88%, transparent);
+        backdrop-filter: blur(14px);
+      }
+
+      .site-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 20;
+        width: 100%;
+        height: 3px;
+        transform: scaleX(0);
+        transform-origin: left;
+        background: linear-gradient(90deg, var(--accent), var(--blue), var(--rose));
+      }
+
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        max-width: 1840px;
+        margin: 0 auto;
+        padding: 14px 24px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        flex: 0 0 auto;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--accent), var(--blue));
+        color: #fff;
+        font-weight: 800;
+        box-shadow: 0 10px 24px rgba(15, 118, 110, 0.22);
+      }
+
+      .brand-title {
+        display: block;
+        font-size: 15px;
+        font-weight: 750;
+        line-height: 1.2;
+      }
+
+      .brand-subtitle {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.2;
+        margin-top: 2px;
+      }
+
+      .top-nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .top-nav a,
+      .side-nav a {
+        border-radius: 8px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 650;
+        text-decoration: none;
+      }
+
+      .top-nav a {
+        padding: 8px 11px;
+      }
+
+      .top-nav a:hover,
+      .top-nav a.is-active,
+      .side-nav a:hover,
+      .side-nav a.is-active,
+      .toc-nav a:hover,
+      .toc-nav a.is-active {
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--ink);
+        cursor: pointer;
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--border-strong);
+        background: var(--panel-soft);
+      }
+
+      .page-shell {
+        display: grid;
+        grid-template-columns: 210px minmax(0, 1fr) 260px;
+        gap: 22px;
+        max-width: 1840px;
+        margin: 0 auto;
+        padding: 28px 24px 72px;
+      }
+
+      .side-panel {
+        align-self: start;
+        position: sticky;
+        top: 84px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: color-mix(in srgb, var(--panel) 78%, transparent);
+        padding: 14px;
+        box-shadow: 0 10px 30px rgba(23, 32, 51, 0.06);
+      }
+
+      .side-label {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 750;
+        letter-spacing: 0;
+        margin: 0 0 10px;
+      }
+
+      .side-nav {
+        display: grid;
+        gap: 4px;
+      }
+
+      .side-nav a {
+        padding: 9px 10px;
+      }
+
+      .toc-panel {
+        align-self: start;
+        position: sticky;
+        top: 84px;
+        max-height: calc(100vh - 110px);
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: color-mix(in srgb, var(--panel) 78%, transparent);
+        padding: 14px;
+        box-shadow: 0 10px 30px rgba(23, 32, 51, 0.06);
+        scrollbar-gutter: stable;
+      }
+
+      .toc-nav {
+        display: grid;
+        gap: 4px;
+      }
+
+      .toc-nav a {
+        border-left: 2px solid transparent;
+        border-radius: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 650;
+        line-height: 1.35;
+        padding: 7px 8px;
+        text-decoration: none;
+      }
+
+      .toc-nav a[data-depth="3"] {
+        padding-left: 18px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .toc-nav a.is-active {
+        border-left-color: var(--accent);
+      }
+
+      .toc-empty {
+        color: var(--muted);
+        font-size: 13px;
+        margin: 0;
+      }
+
+      main {
+        min-width: 0;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        padding: 42px 56px 56px;
+      }
+
+      main > :first-child {
+        margin-top: 0;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: var(--ink-strong);
+        line-height: 1.25;
+        scroll-margin-top: 96px;
+      }
+
+      h1 {
+        position: relative;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+        font-size: 34px;
+        margin: 0 0 28px;
+      }
+
+      h1::after {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 160px;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent), var(--blue), var(--rose));
+        content: "";
+      }
+
+      h2 {
+        position: relative;
+        border-top: 1px solid var(--border);
+        font-size: 25px;
+        margin: 42px 0 16px;
+        padding-top: 28px;
+      }
+
+      h2::before {
+        position: absolute;
+        top: -2px;
+        left: 0;
+        width: 96px;
+        height: 3px;
+        border-radius: 999px;
+        background: var(--accent);
+        content: "";
+      }
+
+      h3 {
+        font-size: 19px;
+        margin: 28px 0 10px;
+      }
+
+      h4 {
+        font-size: 16px;
+        margin: 22px 0 8px;
+      }
+
+      p,
+      ul,
+      ol {
+        margin-bottom: 16px;
+      }
+
+      li + li {
+        margin-top: 4px;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 18px 0;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel-soft);
+        box-shadow: 0 10px 30px rgba(23, 32, 51, 0.08);
+      }
+
+      pre {
+        position: relative;
+        overflow-x: auto;
+        margin: 18px 0;
+        padding: 42px 18px 18px;
+        border-radius: 8px;
+        background: var(--code-bg);
+        color: var(--code-ink);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, monospace;
+        font-size: 0.94em;
+      }
+
+      :not(pre) > code {
+        border: 1px solid #d7dee9;
+        border-radius: 6px;
+        background: var(--blue-soft);
+        color: var(--ink-strong);
+        padding: 0.12em 0.38em;
+      }
+
+      .copy-code {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--code-ink);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 5px 9px;
+      }
+
+      .copy-code:hover {
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      blockquote {
+        margin: 20px 0;
+        border-left: 4px solid var(--accent);
+        border-radius: 0 8px 8px 0;
+        background: var(--accent-soft);
+        color: var(--quote-ink);
+        padding: 14px 18px;
+      }
+
+      hr {
+        border: 0;
+        border-top: 1px solid var(--border);
+        margin: 34px 0;
+      }
+
+      table {
+        border-collapse: collapse;
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        margin: 18px 0 24px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(23, 32, 51, 0.05);
+      }
+
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 10px 14px;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--panel-soft);
+        color: var(--ink-strong);
+        font-weight: 750;
+      }
+
+      tr:nth-child(even) td {
+        background: var(--row-alt);
+      }
+
+      .mermaid {
+        margin: 28px -20px;
+        padding: 16px;
+        border: 1px solid var(--mermaid-border);
+        border-radius: 6px;
+        background: var(--mermaid-bg);
+        overflow-x: auto;
+        text-align: center;
+      }
+
+      .mermaid svg {
+        display: block;
+        width: 100%;
+        min-width: 980px;
+        max-width: none;
+        height: auto;
+        margin: 0 auto;
+      }
+
+      .callout {
+        border: 1px solid #f1d18a;
+        border-radius: 8px;
+        background: var(--warning-soft);
+        color: var(--warning-ink);
+        padding: 12px 14px;
+      }
+
+      main > ol {
+        counter-reset: step;
+        padding-left: 0;
+      }
+
+      main > ol > li {
+        position: relative;
+        margin: 12px 0;
+        padding: 14px 16px 14px 56px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: linear-gradient(180deg, var(--panel), var(--panel-soft));
+        list-style: none;
+      }
+
+      main > ol > li::before {
+        position: absolute;
+        top: 14px;
+        left: 16px;
+        display: grid;
+        width: 26px;
+        height: 26px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        content: counter(step);
+        counter-increment: step;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .image-zoomable {
+        cursor: zoom-in;
+      }
+
+      .image-lightbox {
+        width: min(1100px, calc(100vw - 32px));
+        max-height: calc(100vh - 32px);
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        padding: 0;
+      }
+
+      .image-lightbox::backdrop {
+        background: rgba(8, 13, 22, 0.74);
+        backdrop-filter: blur(6px);
+      }
+
+      .image-lightbox img {
+        width: 100%;
+        max-height: calc(100vh - 96px);
+        object-fit: contain;
+        margin: 0;
+        border: 0;
+        background: var(--panel);
+        box-shadow: var(--shadow-strong);
+      }
+
+      .lightbox-close {
+        display: block;
+        margin: 0 0 10px auto;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        cursor: pointer;
+        font-weight: 800;
+        padding: 8px 12px;
+      }
+
+      @media (max-width: 880px) {
+        .header-inner {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .top-nav {
+          justify-content: flex-start;
+        }
+
+        .top-actions {
+          justify-content: flex-start;
+        }
+
+        .page-shell {
+          display: block;
+          padding: 18px 14px 48px;
+        }
+
+        .side-panel {
+          position: static;
+          margin-bottom: 14px;
+        }
+
+        .toc-panel {
+          display: none;
+        }
+
+        .side-nav {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .side-nav a {
+          text-align: center;
+        }
+
+        main {
+          padding: 28px 18px 40px;
+        }
+
+        .mermaid {
+          margin-right: 0;
+          margin-left: 0;
+          padding: 16px;
+        }
+
+        .mermaid svg {
+          min-width: 760px;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+
+        h2 {
+          font-size: 22px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .header-inner {
+          padding: 12px 14px;
+        }
+
+        .brand-mark {
+          width: 34px;
+          height: 34px;
+        }
+
+        .top-nav {
+          width: 100%;
+        }
+
+        .top-nav a {
+          flex: 1 1 auto;
+          text-align: center;
+        }
+
+        .top-actions {
+          width: 100%;
+        }
+
+        .side-nav {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-progress" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="{{ '/' | relative_url }}">
+          <span class="brand-mark">B</span>
+          <span>
+            <span class="brand-title">Bobハンズオン</span>
+            <span class="brand-subtitle">賃貸物件検索アプリ</span>
+          </span>
+        </a>
+        <div class="top-actions">
+          <nav class="top-nav" aria-label="主要ページ">
+            <a href="{{ '/' | relative_url }}">手順書</a>
+            <a href="{{ '/SETUP_MAC.html' | relative_url }}">Mac</a>
+            <a href="{{ '/SETUP_WINDOWS.html' | relative_url }}">Windows</a>
+          </nav>
+          <button class="theme-toggle" type="button" aria-label="表示テーマを切り替え" title="表示テーマを切り替え">
+            <span aria-hidden="true">◐</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="page-shell">
+      <aside class="side-panel" aria-label="ドキュメントナビゲーション">
+        <p class="side-label">Documents</p>
+        <nav class="side-nav">
+          <a href="{{ '/' | relative_url }}">ハンズオン</a>
+          <a href="{{ '/SETUP_MAC.html' | relative_url }}">Mac セットアップ</a>
+          <a href="{{ '/SETUP_WINDOWS.html' | relative_url }}">Windows セットアップ</a>
+        </nav>
+      </aside>
+      <main>
+        {{ content }}
+      </main>
+      <aside class="toc-panel" aria-label="ページ内目次">
+        <p class="side-label">On this page</p>
+        <nav class="toc-nav"></nav>
+      </aside>
+    </div>
+    <script type="module">
+      const root = document.documentElement;
+      const storedTheme = localStorage.getItem("bob-doc-theme");
+      const preferredDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (storedTheme) {
+        root.dataset.theme = storedTheme;
+      } else if (preferredDark) {
+        root.dataset.theme = "dark";
+      }
+
+      document.querySelector(".theme-toggle")?.addEventListener("click", () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        localStorage.setItem("bob-doc-theme", next);
+      });
+
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+      const mermaidThemeVariables = root.dataset.theme === "dark"
+        ? {
+            background: "#0d1117",
+            mainBkg: "#161b22",
+            secondBkg: "#0d1117",
+            tertiaryColor: "#21262d",
+            primaryColor: "#161b22",
+            primaryTextColor: "#f0f6fc",
+            primaryBorderColor: "#30363d",
+            secondaryColor: "#21262d",
+            secondaryTextColor: "#f0f6fc",
+            secondaryBorderColor: "#30363d",
+            lineColor: "#8b949e",
+            textColor: "#f0f6fc",
+            edgeLabelBackground: "#0d1117",
+            clusterBkg: "#0d1117",
+            clusterBorder: "#30363d",
+            fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+          }
+        : {
+            background: "#ffffff",
+            mainBkg: "#f6f8fa",
+            secondBkg: "#ffffff",
+            tertiaryColor: "#f6f8fa",
+            primaryColor: "#f6f8fa",
+            primaryTextColor: "#24292f",
+            primaryBorderColor: "#d0d7de",
+            secondaryColor: "#ffffff",
+            secondaryTextColor: "#24292f",
+            secondaryBorderColor: "#d0d7de",
+            lineColor: "#57606a",
+            textColor: "#24292f",
+            edgeLabelBackground: "#ffffff",
+            clusterBkg: "#ffffff",
+            clusterBorder: "#d0d7de",
+            fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+          };
+
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: "loose",
+        theme: "base",
+        themeVariables: mermaidThemeVariables
+      });
+
+      const mermaidBlocks = document.querySelectorAll(
+        "pre > code.language-mermaid, .language-mermaid pre > code"
+      );
+
+      mermaidBlocks.forEach((code) => {
+        const container = document.createElement("div");
+        const wrapper = code.closest(".language-mermaid");
+
+        container.className = "mermaid";
+        container.textContent = code.textContent;
+
+        if (wrapper) {
+          wrapper.replaceWith(container);
+        } else {
+          code.parentElement.replaceWith(container);
+        }
+      });
+
+      await mermaid.run({
+        querySelector: ".mermaid"
+      });
+
+      const current = new URL(window.location.href);
+      document.querySelectorAll(".top-nav a, .side-nav a").forEach((link) => {
+        const target = new URL(link.href);
+        const currentPath = current.pathname.replace(/index\.html$/, "");
+        const targetPath = target.pathname.replace(/index\.html$/, "");
+
+        if (currentPath === targetPath) {
+          link.classList.add("is-active");
+        }
+      });
+
+      const slugCounts = new Map();
+      const slugify = (text) => {
+        const base = text
+          .trim()
+          .toLowerCase()
+          .replace(/[^\p{Letter}\p{Number}]+/gu, "-")
+          .replace(/^-+|-+$/g, "") || "section";
+        const count = slugCounts.get(base) ?? 0;
+        slugCounts.set(base, count + 1);
+        return count === 0 ? base : `${base}-${count + 1}`;
+      };
+
+      const headings = [...document.querySelectorAll("main h2, main h3")];
+      const tocNav = document.querySelector(".toc-nav");
+
+      if (tocNav && headings.length > 0) {
+        headings.forEach((heading) => {
+          if (!heading.id) heading.id = slugify(heading.textContent);
+
+          const link = document.createElement("a");
+          link.href = `#${heading.id}`;
+          link.textContent = heading.textContent;
+          link.dataset.depth = heading.tagName === "H3" ? "3" : "2";
+          tocNav.append(link);
+        });
+      } else if (tocNav) {
+        const empty = document.createElement("p");
+        empty.className = "toc-empty";
+        empty.textContent = "見出しがありません。";
+        tocNav.replaceWith(empty);
+      }
+
+      const tocLinks = [...document.querySelectorAll(".toc-nav a")];
+      const activateToc = (id) => {
+        tocLinks.forEach((link) => {
+          link.classList.toggle("is-active", link.hash === `#${id}`);
+        });
+      };
+
+      if (headings.length > 0 && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+
+            if (visible) activateToc(visible.target.id);
+          },
+          {
+            rootMargin: "-18% 0px -72% 0px",
+            threshold: 0
+          }
+        );
+
+        headings.forEach((heading) => observer.observe(heading));
+      }
+
+      const progress = document.querySelector(".site-progress");
+      const updateProgress = () => {
+        if (!progress) return;
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
+        progress.style.transform = `scaleX(${Math.min(1, Math.max(0, ratio))})`;
+      };
+
+      updateProgress();
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      window.addEventListener("resize", updateProgress);
+
+      document.querySelectorAll("pre").forEach((pre) => {
+        const code = pre.querySelector("code");
+        if (!code || pre.querySelector(".copy-code")) return;
+
+        const button = document.createElement("button");
+        button.className = "copy-code";
+        button.type = "button";
+        button.textContent = "Copy";
+        button.addEventListener("click", async () => {
+          await navigator.clipboard.writeText(code.textContent);
+          button.textContent = "Copied";
+          window.setTimeout(() => {
+            button.textContent = "Copy";
+          }, 1400);
+        });
+        pre.append(button);
+      });
+
+      const lightbox = document.createElement("dialog");
+      lightbox.className = "image-lightbox";
+      lightbox.innerHTML = '<button class="lightbox-close" type="button">閉じる</button><img alt="">';
+      document.body.append(lightbox);
+
+      const lightboxImage = lightbox.querySelector("img");
+      lightbox.querySelector(".lightbox-close")?.addEventListener("click", () => lightbox.close());
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) lightbox.close();
+      });
+
+      document.querySelectorAll("main img").forEach((image) => {
+        image.classList.add("image-zoomable");
+        image.addEventListener("click", () => {
+          lightboxImage.src = image.currentSrc || image.src;
+          lightboxImage.alt = image.alt || "";
+          lightbox.showModal();
+        });
+      });
+    </script>
+  </body>
+</html>

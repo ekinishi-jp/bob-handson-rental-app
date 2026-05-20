@@ -38,15 +38,6 @@ def init_db() -> None:
                 description TEXT NOT NULL
             );
 
-            CREATE TABLE IF NOT EXISTS favorites (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT NOT NULL,
-                property_id INTEGER NOT NULL,
-                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                UNIQUE(user_id, property_id),
-                FOREIGN KEY(property_id) REFERENCES properties(id)
-            );
-
             CREATE TABLE IF NOT EXISTS inquiries (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id TEXT NOT NULL,

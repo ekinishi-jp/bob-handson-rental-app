@@ -7,7 +7,7 @@ from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import get_connection, init_db
-from app.schemas import FavoriteRequest, Inquiry, InquiryCreate, Property
+from app.schemas import Inquiry, InquiryCreate, Property
 
 
 @asynccontextmanager
@@ -83,42 +83,6 @@ def get_property(property_id: int) -> Property:
     if row is None:
         raise HTTPException(status_code=404, detail="Property not found")
     return to_property(row)
-
-
-@app.get("/api/favorites", response_model=list[Property])
-def list_favorites(
-    user_id: Annotated[str, Header(alias="X-Demo-User-Id")] = "demo-user-1",
-) -> list[Property]:
-    with get_connection() as connection:
-        rows = connection.execute(
-            """
-            SELECT p.*
-            FROM favorites f
-            JOIN properties p ON p.id = f.property_id
-            WHERE f.user_id = ?
-            ORDER BY f.created_at DESC
-            """,
-            (user_id,),
-        ).fetchall()
-    return [to_property(row) for row in rows]
-
-
-@app.post("/api/favorites", response_model=dict[str, str])
-def add_favorite(
-    request: FavoriteRequest,
-    user_id: Annotated[str, Header(alias="X-Demo-User-Id")] = "demo-user-1",
-) -> dict[str, str]:
-    with get_connection() as connection:
-        exists = connection.execute(
-            "SELECT 1 FROM properties WHERE id = ?", (request.property_id,)
-        ).fetchone()
-        if exists is None:
-            raise HTTPException(status_code=404, detail="Property not found")
-        connection.execute(
-            "INSERT OR IGNORE INTO favorites (user_id, property_id) VALUES (?, ?)",
-            (user_id, request.property_id),
-        )
-    return {"status": "saved"}
 
 
 @app.post("/api/inquiries", response_model=Inquiry, status_code=201)

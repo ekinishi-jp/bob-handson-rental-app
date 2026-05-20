@@ -1,7 +1,10 @@
 # Bobハンズオン: 賃貸物件検索アプリ
 
-2026年05月12日  
-日本アイ・ビー・エム株式会社
+---
+
+## 0. ハンズオン用資料（Github Pages）
+こちらのリンクをwebブラウザで開きながらハンズオンを行います。
+https://ekinishi-jp.github.io/bob-handson-rental-app/
 
 ---
 
@@ -255,6 +258,7 @@ Bobでは、エディターの拡張機能を追加して開発環境をカス�
    ```
 
    ※その他指示のサンプル
+   https://github.com/ekinishi-jp/bob-handson-rental-app/blob/main/instructor/hands_on_feature_model_answer.md
    - [`instructor/hands_on_feature_model_answer.md`](./instructor/hands_on_feature_model_answer.md)
 
 3. **Bobから仕様を詰めるための質問が来る場合は適宜答えていきます**

@@ -1,0 +1,93 @@
+name: Deploy handson docs to GitHub Pages
+
+on:
+  push:
+    paths:
+      - README.md
+      - SETUP_*.md
+      - images/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare Pages source
+        run: |
+          set -euo pipefail
+
+          mkdir -p _pages_src
+
+          {
+            printf -- "---\nlayout: default\ntitle: Bobハンズオン 賃貸物件検索アプリ\n---\n\n"
+            cat README.md
+          } > _pages_src/index.md
+
+          for file in SETUP_*.md; do
+            case "$file" in
+              SETUP_MAC.md) title="Mac 環境セットアップ手順" ;;
+              SETUP_WINDOWS.md) title="Windows 環境セットアップ手順" ;;
+              *) title="${file%.md}" ;;
+            esac
+
+            {
+              printf -- "---\nlayout: default\ntitle: %s\n---\n\n" "$title"
+              cat "$file"
+            } > "_pages_src/$file"
+          done
+
+          if [ -d images ]; then
+            cp -R images _pages_src/images
+          fi
+
+          cat > _pages_src/_config.yml <<'EOF'
+          title: Bobハンズオン 賃貸物件検索アプリ
+          description: ハンズオン手順書
+          markdown: kramdown
+          theme: minima
+          plugins:
+            - jekyll-relative-links
+          relative_links:
+            enabled: true
+            collections: true
+          EOF
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_pages_src
+          destination: ./_site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

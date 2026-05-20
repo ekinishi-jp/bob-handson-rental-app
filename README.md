@@ -156,8 +156,7 @@ Bobがアプリの起動タスクを開始し、途中途中ユーザーに対�
 
 「実行」ボタンの上側に位置するチェックボタンにカーソルを合わせることで、画像右のようにBobに与える権限を設定できます。
 
-<img src="./images/rental-app-run.png" alt="アプリ起動タスクの承認画面" width="200">
-<img src="./images/bob-permission-settings.png" alt="Bobの権限設定" width="200">
+<img src="./images/rental-app-run.png" alt="アプリ起動タスクの承認画面" width="200">     <img src="./images/bob-permission-settings.png" alt="Bobの権限設定" width="200">
 
 Bobが実行する主なコマンドは以下です。
 
@@ -187,8 +186,7 @@ http://localhost:5173
 
 左側の物件一覧から見たい物件を選択すると、画面真ん中に詳細が出て、下にスクロールすると問い合わせフォームが現れます。
 
-<img src="./images/rental-app.png" alt="賃貸物件検索アプリの画面" width="400">
-<img src="./images/rental-app-form.png" alt="問い合わせフォーム" width="300">
+<img src="./images/rental-app.png" alt="賃貸物件検索アプリの画面" width="400">.    <img src="./images/rental-app-form.png" alt="問い合わせフォーム" width="300">
 
 右側の画像のように、必要事項を入力して問い合わせフォームを送信してください。（入力したデータは後ほどの演習時に使われます。）
 

@@ -4,6 +4,7 @@
 
 ## 0. ハンズオン用資料（Github Pages）
 こちらのリンクをwebブラウザで開きながらハンズオンを行います。
+
 https://ekinishi-jp.github.io/bob-handson-rental-app/
 
 ---

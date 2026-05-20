@@ -1,0 +1,427 @@
+:root {
+  color: #1c2520;
+  background: #f6f7f4;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 0;
+}
+
+.topbar {
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #d9ded7;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 32px;
+}
+
+.eyebrow {
+  color: #557062;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 0;
+}
+
+.userBadge,
+.message {
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 10px 12px;
+}
+
+.userBadge {
+  background: #edf2ee;
+}
+
+.searchBand {
+  background: #e9efe9;
+  border-bottom: 1px solid #d4ddd4;
+  padding: 20px 32px;
+}
+
+.searchForm {
+  align-items: end;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(220px, 1.5fr) repeat(4, minmax(130px, 1fr)) auto;
+}
+
+label {
+  color: #415149;
+  display: grid;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 6px;
+}
+
+input,
+select,
+textarea {
+  background: #ffffff;
+  border: 1px solid #cbd4cc;
+  border-radius: 6px;
+  min-height: 42px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.inputIcon {
+  position: relative;
+}
+
+.inputIcon svg {
+  color: #6b7c70;
+  left: 12px;
+  position: absolute;
+  top: 12px;
+}
+
+.inputIcon input {
+  padding-left: 38px;
+}
+
+.primaryButton,
+.iconButton,
+.favoriteItem {
+  align-items: center;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.primaryButton {
+  background: #176b4d;
+  color: #ffffff;
+  font-weight: 700;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 18px;
+}
+
+.primaryButton:hover {
+  background: #105039;
+}
+
+.iconButton {
+  background: #edf2ee;
+  color: #176b4d;
+  height: 42px;
+  width: 42px;
+}
+
+.iconButton:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.message {
+  margin: 16px 32px 0;
+}
+
+.success {
+  background: #e5f4ec;
+  color: #176b4d;
+}
+
+.error {
+  background: #fbe9e7;
+  color: #9f2d20;
+}
+
+.workspace {
+  display: grid;
+  flex: 1;
+  gap: 24px;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(420px, 1.35fr) minmax(220px, 0.6fr);
+  min-height: 0;
+  overflow: hidden;
+  padding: 24px 32px 40px;
+}
+
+.listPane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sectionHeader {
+  align-items: center;
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.sectionHeader h2 {
+  align-items: baseline;
+  display: flex;
+  font-size: 20px;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.sectionHeader span {
+  background: #fff0d9;
+  border-radius: 999px;
+  color: #a34f00;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 6px 14px;
+}
+
+.propertyList {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 2px 4px 2px 2px;
+  scrollbar-gutter: stable;
+}
+
+.propertyCard,
+.detailPane,
+.favoritePane {
+  background: #ffffff;
+  border: 1px solid #d9ded7;
+  border-radius: 8px;
+}
+
+.propertyCard {
+  cursor: pointer;
+  display: grid;
+  flex: none;
+  grid-template-columns: 128px 1fr;
+  min-height: 132px;
+  overflow: hidden;
+}
+
+.propertyCard.active {
+  border-color: #176b4d;
+  box-shadow: 0 0 0 2px rgba(23, 107, 77, 0.14);
+}
+
+.propertyCard img {
+  height: 100%;
+  object-fit: cover;
+  width: 128px;
+}
+
+.propertyCardBody {
+  padding: 14px;
+}
+
+.cardTitleRow,
+.detailHeader {
+  align-items: start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.propertyCard h3,
+.detailHeader h2 {
+  margin-bottom: 8px;
+}
+
+.statusOpen,
+.statusPending {
+  border-radius: 999px;
+  flex: none;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px;
+}
+
+.statusOpen {
+  background: #e5f4ec;
+  color: #176b4d;
+}
+
+.statusPending {
+  background: #fff0d9;
+  color: #865100;
+}
+
+.muted,
+.address {
+  align-items: center;
+  color: #63736a;
+  display: flex;
+  gap: 6px;
+}
+
+.rent {
+  color: #a13b27;
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.detailPane,
+.favoritePane {
+  padding: 18px;
+  max-height: 100%;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.detailImage {
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.factGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 16px 0;
+}
+
+.factGrid div {
+  background: #f4f6f2;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.factGrid span {
+  color: #63736a;
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 22px;
+}
+
+.tags span {
+  background: #edf2ee;
+  border-radius: 999px;
+  color: #415149;
+  font-size: 13px;
+  padding: 6px 10px;
+}
+
+.inquiryForm {
+  border-top: 1px solid #d9ded7;
+  display: grid;
+  gap: 10px;
+  padding-top: 18px;
+}
+
+.inquiryForm h3 {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.favoritePane {
+  align-self: start;
+}
+
+.favoriteItem {
+  background: #f4f6f2;
+  color: #1c2520;
+  gap: 8px;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 12px;
+  text-align: left;
+  width: 100%;
+}
+
+@media (max-width: 1100px) {
+  body {
+    overflow: auto;
+  }
+
+  .searchForm,
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace {
+    height: auto;
+    overflow: visible;
+  }
+
+  .propertyList,
+  .detailPane,
+  .favoritePane {
+    max-height: 70vh;
+  }
+
+  .topbar {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar,
+  .searchBand,
+  .workspace {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .propertyCard {
+    grid-template-columns: 1fr;
+  }
+
+  .propertyCard img {
+    height: 160px;
+    width: 100%;
+  }
+
+  .factGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

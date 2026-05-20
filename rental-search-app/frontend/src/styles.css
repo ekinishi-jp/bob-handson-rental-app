@@ -115,9 +115,7 @@ textarea {
   padding-left: 38px;
 }
 
-.primaryButton,
-.iconButton,
-.favoriteItem {
+.primaryButton {
   align-items: center;
   border: 0;
   border-radius: 6px;
@@ -137,18 +135,6 @@ textarea {
 
 .primaryButton:hover {
   background: #105039;
-}
-
-.iconButton {
-  background: #edf2ee;
-  color: #176b4d;
-  height: 42px;
-  width: 42px;
-}
-
-.iconButton:disabled {
-  cursor: default;
-  opacity: 0.72;
 }
 
 .message {
@@ -219,7 +205,7 @@ textarea {
 
 .propertyCard,
 .detailPane,
-.favoritePane {
+.reservedPane {
   background: #ffffff;
   border: 1px solid #d9ded7;
   border-radius: 8px;
@@ -297,11 +283,16 @@ textarea {
 }
 
 .detailPane,
-.favoritePane {
+.reservedPane {
   padding: 18px;
   max-height: 100%;
   overflow-y: auto;
   scrollbar-gutter: stable;
+}
+
+.reservedPane {
+  align-self: start;
+  min-height: 180px;
 }
 
 .detailImage {
@@ -361,21 +352,6 @@ textarea {
   margin-bottom: 4px;
 }
 
-.favoritePane {
-  align-self: start;
-}
-
-.favoriteItem {
-  background: #f4f6f2;
-  color: #1c2520;
-  gap: 8px;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  padding: 12px;
-  text-align: left;
-  width: 100%;
-}
-
 @media (max-width: 1100px) {
   body {
     overflow: auto;
@@ -393,7 +369,7 @@ textarea {
 
   .propertyList,
   .detailPane,
-  .favoritePane {
+  .reservedPane {
     max-height: 70vh;
   }
 

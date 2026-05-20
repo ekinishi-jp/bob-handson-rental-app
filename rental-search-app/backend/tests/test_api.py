@@ -82,17 +82,6 @@ def test_get_property_detail() -> None:
     assert response.json()["station"] == "中野駅"
 
 
-def test_add_and_list_favorite() -> None:
-    headers = {"X-Demo-User-Id": "user-a"}
-
-    add_response = client.post("/api/favorites", json={"property_id": 2}, headers=headers)
-    list_response = client.get("/api/favorites", headers=headers)
-
-    assert add_response.status_code == 200
-    assert list_response.status_code == 200
-    assert list_response.json()[0]["id"] == 2
-
-
 def test_create_inquiry() -> None:
     response = client.post(
         "/api/inquiries",

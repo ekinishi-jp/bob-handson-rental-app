@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Building2, Heart, Mail, Search, TrainFront } from 'lucide-react';
+import { Building2, Mail, Search, TrainFront } from 'lucide-react';
 import './styles.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:8000';
@@ -71,13 +71,10 @@ function App() {
     max_walk_minutes: '',
   });
   const [properties, setProperties] = useState([]);
-  const [favorites, setFavorites] = useState([]);
   const [selected, setSelected] = useState(null);
   const [inquiry, setInquiry] = useState({ name: '', email: '', phone: '', message: '' });
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
-
-  const favoriteIds = useMemo(() => new Set(favorites.map((item) => item.id)), [favorites]);
 
   async function loadProperties(nextFilters = filters) {
     const params = new URLSearchParams();
@@ -89,12 +86,8 @@ function App() {
     if (!selected && data.length > 0) setSelected(data[0]);
   }
 
-  async function loadFavorites() {
-    setFavorites(await api('/api/favorites'));
-  }
-
   useEffect(() => {
-    Promise.all([loadProperties(), loadFavorites()]).catch((err) => setError(err.message));
+    loadProperties().catch((err) => setError(err.message));
   }, []);
 
   function updateFilter(key, value) {
@@ -111,16 +104,6 @@ function App() {
     setError('');
     const detail = await api(`/api/properties/${propertyId}`).catch((err) => setError(err.message));
     if (detail) setSelected(detail);
-  }
-
-  async function addFavorite(propertyId) {
-    setError('');
-    await api('/api/favorites', {
-      method: 'POST',
-      body: JSON.stringify({ property_id: propertyId }),
-    }).catch((err) => setError(err.message));
-    await loadFavorites();
-    setNotice('お気に入りに追加しました。');
   }
 
   async function submitInquiry(event) {
@@ -258,15 +241,6 @@ function App() {
                   <p className="eyebrow">{selected.title}</p>
                   <h2>{selected.building_name}</h2>
                 </div>
-                <button
-                  className="iconButton"
-                  title="お気に入りに追加"
-                  type="button"
-                  onClick={() => addFavorite(selected.id)}
-                  disabled={favoriteIds.has(selected.id)}
-                >
-                  <Heart size={20} fill={favoriteIds.has(selected.id) ? 'currentColor' : 'none'} />
-                </button>
               </div>
 
               <div className="factGrid">
@@ -338,22 +312,7 @@ function App() {
           )}
         </section>
 
-        <aside className="favoritePane">
-          <div className="sectionHeader">
-            <h2>お気に入り</h2>
-            <span>{favorites.length}件</span>
-          </div>
-          {favorites.length === 0 ? (
-            <p className="muted">気になる物件を保存できます。</p>
-          ) : (
-            favorites.map((property) => (
-              <button className="favoriteItem" key={property.id} type="button" onClick={() => chooseProperty(property.id)}>
-                <span>{property.building_name}</span>
-                <strong>{yen(property.rent_yen)}</strong>
-              </button>
-            ))
-          )}
-        </aside>
+        <aside className="reservedPane" aria-hidden="true" />
       </div>
     </main>
   );

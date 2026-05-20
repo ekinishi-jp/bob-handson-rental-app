@@ -10,3 +10,6 @@ https://www.ibm.com/account/reg/jp-ja/signup?formid=urx-19776&
 ガイドを添付させていただきますが、
 Web記事等を参考にして頂いた方が早いかもしれません。
 https://qiita.com/Shumpei_Kubo/items/564126081dea547dd742
+
+
+# B

@@ -22,10 +22,6 @@ class Property(BaseModel):
     description: str
 
 
-class FavoriteRequest(BaseModel):
-    property_id: int
-
-
 class InquiryCreate(BaseModel):
     property_id: int
     name: str = Field(min_length=1)
@@ -43,4 +39,3 @@ class Inquiry(BaseModel):
     phone: str
     message: str
     created_at: str
-

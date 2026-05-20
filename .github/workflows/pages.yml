@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - README.md
+      - INSTALL_BOB.md
       - instructor/hands_on_feature_model_answer.md
       - SETUP_*.md
       - images/**
@@ -45,11 +46,13 @@ jobs:
             printf -- "---\nlayout: default\ntitle: Bobハンズオン 賃貸物件検索アプリ\n---\n\n"
             cat README.md
           } > _pages_src/index.md
+          sed -i 's#](./SETUP_MAC.md)#](./SETUP_MAC.html)#g; s#](./SETUP_WINDOWS.md)#](./SETUP_WINDOWS.html)#g; s#](./instructor/hands_on_feature_model_answer.md)#](./instructor/hands_on_feature_model_answer.html)#g' _pages_src/index.md
 
           mkdir -p _pages_src/instructor
 
-          for file in instructor/hands_on_feature_model_answer.md SETUP_*.md; do
+          for file in INSTALL_BOB.md instructor/hands_on_feature_model_answer.md SETUP_*.md; do
             case "$file" in
+              INSTALL_BOB.md) title="Bob インストール手順" ;;
               instructor/hands_on_feature_model_answer.md) title="追加機能の要件定義 指示サンプル" ;;
               SETUP_MAC.md) title="Mac 環境セットアップ手順" ;;
               SETUP_WINDOWS.md) title="Windows 環境セットアップ手順" ;;

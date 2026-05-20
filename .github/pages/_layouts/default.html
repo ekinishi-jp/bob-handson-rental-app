@@ -29,6 +29,8 @@
         --quote-ink: #23433f;
         --row-alt: #fbfcfe;
         --link-hover: #0b4f4a;
+        --mermaid-bg: #ffffff;
+        --mermaid-border: #d0d7de;
         --code-bg: #101828;
         --code-ink: #e6edf7;
         --shadow: 0 18px 48px rgba(23, 32, 51, 0.08);
@@ -59,6 +61,8 @@
         --quote-ink: #c9f3ed;
         --row-alt: #182233;
         --link-hover: #b7f2e8;
+        --mermaid-bg: #0d1117;
+        --mermaid-border: #30363d;
         --code-bg: #090d14;
         --code-ink: #e6edf7;
         --shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
@@ -476,10 +480,10 @@
 
       .mermaid {
         margin: 28px -20px;
-        padding: 24px;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        background: linear-gradient(180deg, var(--panel), var(--panel-soft));
+        padding: 16px;
+        border: 1px solid var(--mermaid-border);
+        border-radius: 6px;
+        background: var(--mermaid-bg);
         overflow-x: auto;
         text-align: center;
       }
@@ -724,19 +728,49 @@
 
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
 
+      const mermaidThemeVariables = root.dataset.theme === "dark"
+        ? {
+            background: "#0d1117",
+            mainBkg: "#161b22",
+            secondBkg: "#0d1117",
+            tertiaryColor: "#21262d",
+            primaryColor: "#161b22",
+            primaryTextColor: "#f0f6fc",
+            primaryBorderColor: "#30363d",
+            secondaryColor: "#21262d",
+            secondaryTextColor: "#f0f6fc",
+            secondaryBorderColor: "#30363d",
+            lineColor: "#8b949e",
+            textColor: "#f0f6fc",
+            edgeLabelBackground: "#0d1117",
+            clusterBkg: "#0d1117",
+            clusterBorder: "#30363d",
+            fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+          }
+        : {
+            background: "#ffffff",
+            mainBkg: "#f6f8fa",
+            secondBkg: "#ffffff",
+            tertiaryColor: "#f6f8fa",
+            primaryColor: "#f6f8fa",
+            primaryTextColor: "#24292f",
+            primaryBorderColor: "#d0d7de",
+            secondaryColor: "#ffffff",
+            secondaryTextColor: "#24292f",
+            secondaryBorderColor: "#d0d7de",
+            lineColor: "#57606a",
+            textColor: "#24292f",
+            edgeLabelBackground: "#ffffff",
+            clusterBkg: "#ffffff",
+            clusterBorder: "#d0d7de",
+            fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+          };
+
       mermaid.initialize({
         startOnLoad: false,
         securityLevel: "loose",
         theme: "base",
-        themeVariables: {
-          primaryColor: "#e8f6f3",
-          primaryTextColor: "#172033",
-          primaryBorderColor: "#0f766e",
-          lineColor: "#5f6f86",
-          secondaryColor: "#f8fafc",
-          tertiaryColor: "#ffffff",
-          fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
-        }
+        themeVariables: mermaidThemeVariables
       });
 
       const mermaidBlocks = document.querySelectorAll(
